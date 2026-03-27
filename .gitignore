@@ -1,25 +1,51 @@
-# Node.js
-frontend/node_modules/
-frontend/dist/
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
-
-# Python
-backend/venv/
-backend/__pycache__/
-backend/*.pyc
-backend/.env
-backend/db.sqlite3
-backend/media/
-backend/static/
-
-# IDE files
+# General
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS files
-.DS_Store
-Thumbs.db
+# Backend (Django)
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/*.db
+backend/*.sqlite3
+backend/.env
+backend/venv/
+backend/env/
+backend/lib/
+backend/media/
+backend/static/
+backend/output*.txt
+backend/check_out.txt
+backend/seeds/*.sql
+
+# Scripts/Temp
+backend/test_ai.py
+backend/test_api.py
+backend/check_db.py
+backend/check_ml.py
+backend/resave_ml.py
+
+# Frontend (Vite/Node)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/build_output.txt
+frontend/build_utf8.txt
+frontend/lint_output.txt
+frontend/lint_utf8.txt
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Project specific
+*.log
