@@ -1,0 +1,6 @@
+﻿Sklearn version: 1.8.0
+Model type: <class 'lightgbm.basic.Booster'>
+Features: ['Soil_Type', 'Soil_pH', 'Soil_Moisture', 'Organic_Carbon', 'Electrical_Conductivity', 'Nitrogen_Level', 'Phosphorus_Level', 'Potassium_Level', 'Temperature', 'Humidity', 'Rainfall', 'Crop_Type', 'Crop_Growth_Stage', 'Season', 'Irrigation_Type', 'Previous_Crop', 'Region', 'NPK_Ratio', 'Moisture_Rain_Interaction', 'Climate_Stress']
+Prediction shape: (1, 7)
+Prediction result: [[3.38718343e-04 7.37278254e-04 3.42569163e-04 2.58468127e-04
+  2.32054006e-04 9.97803897e-01 2.87014794e-04]]

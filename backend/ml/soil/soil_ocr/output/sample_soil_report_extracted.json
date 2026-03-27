@@ -1,0 +1,61 @@
+{
+  "farmer_details": {
+    "name": "Ramesh Kumar Sharma",
+    "village": "Sundarpur",
+    "district": "Varanasi",
+    "state": "Uttar Pradesh"
+  },
+  "sample_details": {
+    "sample_id": "SHC-",
+    "survey_number": "123/4A",
+    "sample_date": "15/03/2024"
+  },
+  "soil_parameters": {
+    "ph": "7.5",
+    "electrical_conductivity": "0.45",
+    "organic_carbon": "0.62",
+    "nitrogen": "245",
+    "phosphorus": "18.5",
+    "potassium": "312",
+    "sulphur": "14.2",
+    "zinc": "0.85",
+    "iron": "6.2",
+    "copper": "",
+    "manganese": "3.45",
+    "boron": "0.52"
+  },
+  "recommendations": {
+    "fertilizer": "Apply Urea 120 kg/ha DAP 60 kg/ha MOP 40 kg/ha in split doses as basal and top dressing",
+    "crop": "Wheat; Rice, Mustard, Sugarcane"
+  },
+  "metadata": {
+    "extraction_confidence": 0.952,
+    "fields_extracted": 20,
+    "total_fields": 21,
+    "ocr_engine": "easyocr",
+    "processing_date": "2026-03-14T03:45:23.680733"
+  },
+  "field_confidences": {
+    "farmer_name": 0.886,
+    "farmer_village": 0.886,
+    "farmer_district": 0.886,
+    "farmer_state": 0.886,
+    "sample_sample_id": 0.886,
+    "sample_survey_number": 0.709,
+    "sample_sample_date": 0.886,
+    "param_ph": 0.886,
+    "param_electrical_conductivity": 0.886,
+    "param_organic_carbon": 0.886,
+    "param_nitrogen": 0.886,
+    "param_phosphorus": 0.886,
+    "param_potassium": 0.886,
+    "param_sulphur": 0.886,
+    "param_zinc": 0.886,
+    "param_iron": 0.886,
+    "param_copper": 0.0,
+    "param_manganese": 0.886,
+    "param_boron": 0.886,
+    "rec_fertilizer": 0.886,
+    "rec_crop": 0.886
+  }
+}

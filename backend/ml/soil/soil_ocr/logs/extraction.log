@@ -1,0 +1,67 @@
+2026-03-14 03:18:16,676 | soil_extractor               | INFO    | OCR engine: requested=pytesseract → resolved=pytesseract
+2026-03-14 03:18:16,677 | soil_extractor               | INFO    | Tesseract binary: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-03-14 03:18:16,678 | soil_extractor               | INFO    | Pipeline ready (engine=pytesseract)
+2026-03-14 03:18:16,678 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:18:16,709 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:18:18,390 | soil_extractor               | WARNING | ph=175.00 out of range [0,14]
+2026-03-14 03:18:18,401 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:18:18,404 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png done in 1.73s
+2026-03-14 03:19:12,606 | soil_extractor               | INFO    | OCR engine: requested=pytesseract → resolved=pytesseract
+2026-03-14 03:19:12,606 | soil_extractor               | INFO    | Tesseract binary: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-03-14 03:19:12,607 | soil_extractor               | INFO    | Pipeline ready (engine=pytesseract)
+2026-03-14 03:19:12,607 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:19:12,613 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:19:13,941 | soil_extractor               | WARNING | ph=175.00 out of range [0,14]
+2026-03-14 03:19:13,946 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:19:13,946 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png done in 1.34s
+2026-03-14 03:19:20,900 | soil_extractor               | INFO    | OCR engine: requested=easyocr → resolved=easyocr
+2026-03-14 03:19:20,900 | soil_extractor               | INFO    | Pipeline ready (engine=easyocr)
+2026-03-14 03:19:20,901 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:19:20,914 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:19:21,308 | soil_extractor               | INFO    | Initialising EasyOCR (may take a moment)…
+2026-03-14 03:19:23,097 | soil_extractor               | INFO    | EasyOCR ready
+2026-03-14 03:19:28,134 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:19:28,135 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png done in 7.23s
+2026-03-14 03:19:34,503 | soil_extractor               | INFO    | OCR engine: requested=both → resolved=both
+2026-03-14 03:19:34,503 | soil_extractor               | INFO    | Pipeline ready (engine=both)
+2026-03-14 03:19:34,503 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:19:34,508 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:19:35,789 | soil_extractor               | INFO    | Initialising EasyOCR (may take a moment)…
+2026-03-14 03:19:37,475 | soil_extractor               | INFO    | EasyOCR ready
+2026-03-14 03:19:42,185 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:19:42,186 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png done in 7.68s
+2026-03-14 03:21:01,605 | soil_extractor               | INFO    | OCR engine: requested=both → resolved=both
+2026-03-14 03:21:01,606 | soil_extractor               | INFO    | Pipeline ready (engine=both)
+2026-03-14 03:21:01,607 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:21:01,615 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:21:02,931 | soil_extractor               | INFO    | Initialising EasyOCR (may take a moment)…
+2026-03-14 03:21:04,383 | soil_extractor               | INFO    | EasyOCR ready
+2026-03-14 03:21:08,991 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:21:08,992 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png done in 7.38s
+2026-03-14 03:44:55,340 | soil_extractor               | INFO    | OCR engine: requested=both resolved=both
+2026-03-14 03:44:55,341 | soil_extractor               | INFO    | Tesseract: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-03-14 03:44:55,341 | soil_extractor               | INFO    | Pipeline ready (engine=both)
+2026-03-14 03:44:55,341 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:44:55,362 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:44:56,851 | soil_extractor               | INFO    | Initialising EasyOCR…
+2026-03-14 03:44:58,711 | soil_extractor               | INFO    | EasyOCR ready
+2026-03-14 03:45:03,656 | soil_extractor               | INFO    | Both engines: tesseract=742 chars (0.84), easyocr=688 chars (0.89)
+2026-03-14 03:45:03,670 | soil_extractor               | WARNING | ph=175.00 outside [0,14]
+2026-03-14 03:45:03,674 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:45:03,675 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png in 8.33s
+2026-03-14 03:45:09,527 | soil_extractor               | INFO    | OCR engine: requested=pytesseract resolved=pytesseract
+2026-03-14 03:45:09,527 | soil_extractor               | INFO    | Tesseract: C:\Program Files\Tesseract-OCR\tesseract.exe
+2026-03-14 03:45:09,527 | soil_extractor               | INFO    | Pipeline ready (engine=pytesseract)
+2026-03-14 03:45:09,527 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:45:09,533 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:45:10,951 | soil_extractor               | WARNING | ph=175.00 outside [0,14]
+2026-03-14 03:45:10,957 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:45:10,957 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png in 1.43s
+2026-03-14 03:45:17,146 | soil_extractor               | INFO    | OCR engine: requested=easyocr resolved=easyocr
+2026-03-14 03:45:17,147 | soil_extractor               | INFO    | Pipeline ready (engine=easyocr)
+2026-03-14 03:45:17,147 | soil_extractor               | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 03:45:17,155 | soil_extractor               | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 03:45:17,561 | soil_extractor               | INFO    | Initialising EasyOCR…
+2026-03-14 03:45:19,068 | soil_extractor               | INFO    | EasyOCR ready
+2026-03-14 03:45:23,681 | soil_extractor               | INFO    | JSON → C:\Users\Dell\Desktop\soil\soil_ocr\output\sample_soil_report_extracted.json
+2026-03-14 03:45:23,682 | soil_extractor               | INFO    | ✔ input/sample_soil_report.png in 6.54s

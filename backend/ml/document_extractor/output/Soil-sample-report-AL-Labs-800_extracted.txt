@@ -1,0 +1,42 @@
+============================================================
+       DOCUMENT TEXT EXTRACTION REPORT
+============================================================
+
+Source file : Soil-sample-report-AL-Labs-800.png
+File type   : .png
+Extracted on: 2026-03-14 17:26:00
+Characters  : 1180
+Words       : 245
+
+------------------------------------------------------------
+EXTRACTED TEXT
+------------------------------------------------------------
+
+[a —_
+
+=
+Reported Date:2073-11.01 Printed Date:Nov 1, 2023 SOIL TEST REPORT Page: 11 2
+Te Lib Organs Picaphons Ppp Poiesum Mappesunr acum pl GEE Paces ies Saratone
+{riumber a = vei ywumber Matter _Bicerb Bray-P1_K.ppm __Mgppm _Cappm pi" Buffer moa/t00g % KS Mg %Ca_ i % Na,
+‘ 12 sees 36 7L 10 YIM —7S3VH_2isM 65 69 8822 S24 S65 59 29
+12 aes 39 Gt 9. WOM «Gad saa0M «77-258 17 Bea 750 14
+b 12 dese 52 © 7L 12k HM ~—«SBSVH BOIOM «G7 69 Bat 12 aes Gas 46 33
+12 descr 48 7L WoL tv Porvd_aovoL 94 fap 29 208 we a7 33
+re Sar RESO ane Magarse_ on Gener fon SQ Stan Anan Stan Kg yg CNS Sean
+7 vie vi 403829 25t 29M GevH_o9M aL 3L 465 016007 5 725,
+7M 22 7L 25 bel BOM SaVH 1OM OFM TW Yee 00 oe st orn
+ae vnires FL 2s SOM beM TOV eM Oat 4M 42 01G 008 es 18204)
+deo vHiges 9 932M SoH _G4VH_o@M oat 4M__992 006 _010 57 servi
+SOIL FERTILITY GUIDELINES (s/ae)
+Barly (ang) Canola ‘bo 00 181-90 2 00 0 000 0 1 20
+i Bavley (Mating) Canola build obo 091s
+Baroy (Mating) Canola este 0060s ®t
+b Barly (Mating) Canola build obs 00S t60.s 70S Ss
+b Batley (Mating) Canola esbu 008s
+b Batley Mating) Canola build eb 008s] si
+canola Batley Making) —«100bU—=—isw SCD
+canola Barley Walng) Bld 100bu «=D GCC
+
+============================================================
+END OF REPORT
+============================================================

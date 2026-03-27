@@ -1,0 +1,14 @@
+﻿
+> frontend@0.0.0 lint
+> eslint .
+
+
+C:\Users\hp\OneDrive\Desktop\krishisarthi\frontend\src\components\DiscussionCard.jsx
+  6:12  error  'isLiked' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  6:21  error  'setIsLiked' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\hp\OneDrive\Desktop\krishisarthi\frontend\src\pages\DashboardPage.jsx
+  38:64  error  Empty block statement  no-empty
+
+Γ£û 3 problems (3 errors, 0 warnings)
+

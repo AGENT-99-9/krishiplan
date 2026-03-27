@@ -1,0 +1,12 @@
+2026-03-14 02:15:59,951 | soil_report_extractor.ocr_engine     | INFO    | OCREngine ready (backend=pytesseract)
+2026-03-14 02:15:59,952 | soil_report_extractor                | INFO    | Pipeline ready (engine=pytesseract)
+2026-03-14 02:15:59,952 | soil_report_extractor                | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 02:15:59,963 | soil_report_extractor.image_processor | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 02:16:00,558 | soil_report_extractor.ocr_engine     | ERROR   | Tesseract failed: tesseract is not installed or it's not in your PATH. See README file for more information.
+2026-03-14 02:16:00,559 | soil_report_extractor                | WARNING | No text extracted from input/sample_soil_report.png
+2026-03-14 02:19:10,153 | soil_report_extractor.ocr_engine     | INFO    | OCREngine ready (backend=pytesseract)
+2026-03-14 02:19:10,154 | soil_report_extractor                | INFO    | Pipeline ready (engine=pytesseract)
+2026-03-14 02:19:10,154 | soil_report_extractor                | INFO    | ▶ Processing: input/sample_soil_report.png
+2026-03-14 02:19:10,160 | soil_report_extractor.image_processor | INFO    | Loaded image (900x1300): input/sample_soil_report.png
+2026-03-14 02:19:10,667 | soil_report_extractor.ocr_engine     | ERROR   | Tesseract failed: tesseract is not installed or it's not in your PATH. See README file for more information.
+2026-03-14 02:19:10,667 | soil_report_extractor                | WARNING | No text extracted from input/sample_soil_report.png

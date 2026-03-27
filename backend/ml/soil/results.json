@@ -1,0 +1,47 @@
+{
+  "values": {
+    "sand_pct": 65.5,
+    "silt_pct": 10.8,
+    "clay_pct": 23.8,
+    "organic_carbon_pct": 2.62,
+    "nitrogen_mg_kg": 237.8,
+    "phosphorus_mg_kg": 35.9,
+    "potassium_mg_kg": 232.3,
+    "ph": 6.64,
+    "iron_mg_kg": 41.4,
+    "moisture_pct": 10.3,
+    "ec_ds_m": 0.23,
+    "cec_cmol_kg": 21.0
+  },
+  "confidence": {
+    "sand_pct": "MEDIUM",
+    "silt_pct": "MEDIUM",
+    "clay_pct": "MEDIUM",
+    "organic_carbon_pct": "HIGH",
+    "nitrogen_mg_kg": "MEDIUM",
+    "phosphorus_mg_kg": "LOW",
+    "potassium_mg_kg": "LOW",
+    "ph": "MEDIUM",
+    "iron_mg_kg": "HIGH",
+    "moisture_pct": "MEDIUM",
+    "ec_ds_m": "LOW",
+    "cec_cmol_kg": "MEDIUM"
+  },
+  "texture_class": "Sandy Clay Loam",
+  "colour": {
+    "colour_name": "Moderately Dark Gray",
+    "munsell_approx": "~YR 3.8/0.6",
+    "dominant_hue": "Gray",
+    "darkness_level": "Moderately Dark"
+  },
+  "health": {
+    "N Status": "Medium \u2713",
+    "P Status": "High \u2713\u2713",
+    "K Status": "Medium \u2713",
+    "pH Status": "Near Neutral \u2713",
+    "Organic Matter": "Good \u2713",
+    "Moisture": "Dry",
+    "Iron": "Low\u2013Medium",
+    "Drainage": "Moderate"
+  }
+}

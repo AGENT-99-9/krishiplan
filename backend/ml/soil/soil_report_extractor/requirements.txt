@@ -1,0 +1,19 @@
+# ── Core OCR ──────────────────────────────────
+pytesseract>=0.3.10
+easyocr>=1.7.0
+
+# ── Image processing ─────────────────────────
+opencv-python>=4.8.0
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# ── PDF handling ──────────────────────────────
+pdf2image>=1.16.3
+PyMuPDF>=1.23.0
+
+# ── Word documents ────────────────────────────
+python-docx>=0.8.11
+
+# ── Optional: HuggingFace TrOCR ──────────────
+# transformers>=4.35.0
+# torch>=2.0.0

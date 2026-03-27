@@ -1,0 +1,19 @@
+Django>=4.2.0
+djangorestframework>=3.14.0
+pymongo>=4.6.0
+django-cors-headers>=4.3.0
+bcrypt>=4.1.2
+python-jose[cryptography]==3.3.0
+python-dotenv==1.0.1
+lightgbm
+joblib
+pandas
+numpy
+scikit-learn
+certifi
+# Soil predictor + Document extractor
+opencv-python-headless
+pytesseract
+PyPDF2
+pdf2image
+Pillow
