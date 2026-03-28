@@ -36,8 +36,17 @@ export default function LoginPage() {
                 username: res.data.username,
                 email: res.data.email,
                 full_name: res.data.full_name || '',
+                role: res.data.role,
+                vendor_profile: res.data.vendor_profile || null
             }));
-            navigate('/dashboard');
+
+            if (res.data.role === 'vendor') {
+                navigate('/vendor-dashboard');
+            } else if (res.data.role === 'admin') {
+                navigate('/admin-dashboard');
+            } else {
+                navigate('/dashboard');
+            }
         } catch (err) {
             if (err.response) {
                 setApiError(err.response.data?.detail || 'Login failed. Please try again.');

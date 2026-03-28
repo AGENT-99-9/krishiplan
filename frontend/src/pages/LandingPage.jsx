@@ -4,6 +4,13 @@ import Footer from '../components/Footer';
 import Button from '../components/Button';
 
 export default function LandingPage() {
+    let user = null;
+    try {
+        const raw = localStorage.getItem('user');
+        user = raw ? JSON.parse(raw) : null;
+    } catch { user = null; }
+    const isVendor = user?.role === 'vendor';
+
     return (
         <div className="min-h-screen flex flex-col bg-slate-50">
             <Navbar />
@@ -18,47 +25,55 @@ export default function LandingPage() {
                                 Complete Platform
                             </span>
                             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                                Everything you need to succeed
+                                {isVendor ? "Scale your Agriculture Business" : "Everything you need to succeed"}
                             </h2>
                             <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
-                                A comprehensive ecosystem built specifically for the modern Indian farmer.
+                                {isVendor
+                                    ? "A professional-grade suite to manage your warehouse, logistics, and sales."
+                                    : "A comprehensive ecosystem built specifically for the modern Indian farmer."}
                             </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                             {[
                                 {
-                                    title: "AI-Powered Fertilizer Advisor",
-                                    desc: "Upload soil photos or lab reports, get ML-driven fertilizer recommendations with exact dosage calculations using our LightGBM model.",
+                                    title: isVendor ? "Inventory Intelligence" : "AI-Powered Fertilizer Advisor",
+                                    desc: isVendor
+                                        ? "Monitor stock levels, track product performance, and get AI-driven demand forecasting for your warehouse."
+                                        : "Upload soil photos or lab reports, get ML-driven fertilizer recommendations with exact dosage calculations.",
                                     icon: (
                                         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-2.47 2.47a2.25 2.25 0 01-1.591.659H9.061a2.25 2.25 0 01-1.591-.659L5 14.5m14 0V17a2.25 2.25 0 01-2.25 2.25H7.25A2.25 2.25 0 015 17v-2.5" />
                                         </svg>
                                     ),
                                     color: "bg-blue-50 text-blue-600",
-                                    features: ["Soil Photo Analysis", "Lab Report OCR", "N-P-K Dosage"]
+                                    features: isVendor ? ["Stock Alerts", "Demand Forecast", "SKU Tracking"] : ["Soil Photo Analysis", "Lab Report OCR", "N-P-K Dosage"]
                                 },
                                 {
-                                    title: "Direct Marketplace",
-                                    desc: "Buy seeds, fertilizers, and equipment directly from verified sellers. No middlemen, competitive prices, order tracking.",
+                                    title: isVendor ? "Smart Fulfillment" : "Direct Marketplace",
+                                    desc: isVendor
+                                        ? "Seamlessly manage orders, auto-generate tracking IDs, and coordinate with shipping providers to reach farmers."
+                                        : "Buy seeds, fertilizers, and equipment directly from verified sellers. No middlemen, competitive prices.",
                                     icon: (
                                         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                                         </svg>
                                     ),
                                     color: "bg-krishi-50 text-krishi-600",
-                                    features: ["Buy & Sell", "Order Tracking", "Category Filters"]
+                                    features: isVendor ? ["Auto-Tracking", "Vetted Buyers", "Express Ship"] : ["Buy & Sell", "Order Tracking", "Category Filters"]
                                 },
                                 {
-                                    title: "Farmer Community",
-                                    desc: "Connect with thousands of experts and peers. Share knowledge, discuss challenges, and get peer-reviewed agricultural advice.",
+                                    title: isVendor ? "Enterprise Analytics" : "Farmer Community",
+                                    desc: isVendor
+                                        ? "Deep dive into your revenue, sales trends, and customer demographics to optimize your business operations."
+                                        : "Connect with thousands of experts and peers. Share knowledge, discuss challenges, and get advice.",
                                     icon: (
                                         <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                                         </svg>
                                     ),
                                     color: "bg-orange-50 text-orange-600",
-                                    features: ["Discussions", "Expert Advice", "Topic Categories"]
+                                    features: isVendor ? ["Revenue Stats", "User Heatmaps", "Profitability"] : ["Discussions", "Expert Advice", "Topic Categories"]
                                 }
                             ].map((feature, idx) => (
                                 <div key={idx} className="group p-8 rounded-3xl border border-gray-100 bg-white hover:border-krishi-200 hover:shadow-xl hover:shadow-krishi-500/5 transition-all duration-300">
@@ -88,12 +103,20 @@ export default function LandingPage() {
                             <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">From soil to harvest — get intelligent guidance at every step</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                            {[
-                                { step: "01", title: "Upload Soil Data", desc: "Take a photo of your soil or upload a lab report for instant analysis.", icon: "📷" },
-                                { step: "02", title: "Get AI Analysis", desc: "Our ML model analyzes N-P-K levels and recommends the right fertilizer.", icon: "🧠" },
-                                { step: "03", title: "Buy Supplies", desc: "Purchase recommended fertilizers directly from our marketplace.", icon: "🛒" },
-                                { step: "04", title: "Track & Grow", desc: "Monitor your orders, track results, and connect with the community.", icon: "📈" }
-                            ].map((item) => (
+                            {(isVendor
+                                ? [
+                                    { step: "01", title: "Setup Warehouse", desc: "List your inventory and set your professional business profile.", icon: "🏢" },
+                                    { step: "02", title: "List Products", desc: "Add fertilizers, seeds or tools with batch pricing and photos.", icon: "📦" },
+                                    { step: "03", title: "Fulfil Orders", desc: "Get real-time alerts when farmers buy. Generate tracking IDs.", icon: "🚚" },
+                                    { step: "04", title: "Scale Business", desc: "Use deep analytics to identify trends and maximize your ROI.", icon: "📊" }
+                                ]
+                                : [
+                                    { step: "01", title: "Upload Soil Data", desc: "Take a photo of your soil or upload a lab report for instant analysis.", icon: "📷" },
+                                    { step: "02", title: "Get AI Analysis", desc: "Our ML model analyzes N-P-K levels and recommends the right fertilizer.", icon: "🧠" },
+                                    { step: "03", title: "Buy Supplies", desc: "Purchase recommended fertilizers directly from our marketplace.", icon: "🛒" },
+                                    { step: "04", title: "Track & Grow", desc: "Monitor your orders, track results, and connect with the community.", icon: "📈" }
+                                ]
+                            ).map((item) => (
                                 <div key={item.step} className="relative text-center">
                                     <div className="text-4xl mb-4">{item.icon}</div>
                                     <span className="text-xs font-black text-krishi-500 uppercase tracking-widest">Step {item.step}</span>
@@ -126,18 +149,20 @@ export default function LandingPage() {
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
                             <div className="relative px-8 py-20 sm:px-16 sm:py-24 text-center">
                                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                                    Ready to modernize your farm?
+                                    {isVendor ? "Maximize your Profit Margins" : "Ready to modernize your farm?"}
                                 </h2>
                                 <p className="text-krishi-100 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-                                    Join farmers who are already using KrishiSaarthi to increase their yield and efficiency with AI-powered insights.
+                                    {isVendor
+                                        ? "Join verified agri-businesses using KrishiSaarthi to scale their distribution and reach farmers nationwide."
+                                        : "Join farmers who are already using KrishiSaarthi to increase their yield and efficiency with AI-powered insights."}
                                 </p>
                                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                    <Button to="/signup" variant="primary" className="bg-white text-krishi-900 hover:bg-krishi-50 border-none scale-110">
-                                        Get Started Free&nbsp;&nbsp;→
+                                    <Button to={isVendor ? "/vendor-dashboard" : "/signup"} variant="primary" className="bg-white text-krishi-900 hover:bg-krishi-50 border-none scale-110">
+                                        {isVendor ? "Launch Business Portal" : "Get Started Free"} &nbsp;&nbsp;→
                                     </Button>
                                     <p className="text-krishi-400 text-sm sm:ml-4 flex items-center gap-2">
                                         <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                                        Free forever • No credit card required
+                                        {isVendor ? "Enterprise grade security" : "Free forever • No credit card required"}
                                     </p>
                                 </div>
                             </div>

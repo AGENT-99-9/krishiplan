@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import DashboardNavbar from '../components/DashboardNavbar';
 import Footer from '../components/Footer';
 import marketplaceApi from '../api/marketplaceApi';
 
@@ -17,7 +17,7 @@ export default function MarketplacePage() {
     const [showBuyModal, setShowBuyModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
-    const [sellForm, setSellForm] = useState({ name: '', description: '', price: '', category: 'Seeds', image_url: '' });
+    const [sellForm, setSellForm] = useState({ name: '', description: '', price: '', category: 'Seeds', image_url: '', stock_quantity: 100 });
     const [buyQuantity, setBuyQuantity] = useState(1);
     const [actionLoading, setActionLoading] = useState(false);
 
@@ -34,6 +34,14 @@ export default function MarketplacePage() {
     };
 
     useEffect(() => {
+        try {
+            const raw = localStorage.getItem('user');
+            const user = raw ? JSON.parse(raw) : null;
+            if (user && user.role === 'vendor') {
+                navigate('/vendor-dashboard');
+                return;
+            }
+        } catch { /* ignore malformed user data */ }
         fetchProducts();
     }, [activeCategory, search]);
 
@@ -52,7 +60,7 @@ export default function MarketplacePage() {
         try {
             await marketplaceApi.createProduct(sellForm);
             setShowSellModal(false);
-            setSellForm({ name: '', description: '', price: '', category: 'Seeds', image_url: '' });
+            setSellForm({ name: '', description: '', price: '', category: 'Seeds', image_url: '', stock_quantity: 100 });
             fetchProducts();
         } catch (err) {
             console.error('Error creating product:', err);
@@ -75,8 +83,8 @@ export default function MarketplacePage() {
             setBuyQuantity(1);
             alert('Purchase successful! You can view your order in the dashboard.');
         } catch (err) {
-            console.error('Error buying product:', err);
-            alert('Failed to purchase product. Please try again.');
+            const errMsg = err.response?.data?.detail || 'Failed to purchase product. Please try again.';
+            alert(errMsg);
         } finally {
             setActionLoading(false);
         }
@@ -96,7 +104,7 @@ export default function MarketplacePage() {
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50/50">
-            <Navbar />
+            <DashboardNavbar />
 
             <main className="flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
                 {/* Header Section */}
@@ -169,9 +177,15 @@ export default function MarketplacePage() {
                                     <h3 className="font-bold text-gray-900 mb-2 group-hover:text-krishi-600 transition-colors capitalize text-base tracking-tight">{product.name}</h3>
                                     <p className="text-sm text-gray-500 line-clamp-2 mb-6 h-10 flex-1">{product.description}</p>
                                     <div className="flex items-center justify-between mt-auto">
-                                        <div>
+                                        <div className="mb-2">
                                             <span className="text-xs text-gray-400 font-medium uppercase tracking-wider block mb-0.5">Price</span>
                                             <span className="text-xl font-black text-krishi-700">₹{product.price}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className={`w-2 h-2 rounded-full ${product.stock_quantity > 10 ? 'bg-green-500' : 'bg-red-500'}`} />
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                                {product.stock_quantity > 10 ? `${product.stock_quantity} in stock` : 'Low Stock'}
+                                            </span>
                                         </div>
                                         <button
                                             onClick={() => openBuyModal(product)}
@@ -252,6 +266,13 @@ export default function MarketplacePage() {
                             </div>
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 mb-1.5 flex items-center justify-between">
+                                    <span>Stock Quantity <span className="text-red-500">*</span></span>
+                                    <span className="text-gray-400 font-normal text-xs uppercase tracking-wider">Initial Units</span>
+                                </label>
+                                <input required type="number" min="1" value={sellForm.stock_quantity} onChange={e => setSellForm({ ...sellForm, stock_quantity: e.target.value })} className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-krishi-500/20 focus:border-krishi-500 outline-none transition-all shadow-sm" placeholder="100" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-1.5 flex items-center justify-between">
                                     <span>Image URL</span>
                                     <span className="text-gray-400 font-normal text-xs uppercase tracking-wider">Optional</span>
                                 </label>
@@ -304,9 +325,10 @@ export default function MarketplacePage() {
                                 </div>
                                 <div className="flex border border-gray-200 bg-white rounded-xl overflow-hidden shadow-sm">
                                     <button onClick={() => setBuyQuantity(Math.max(1, buyQuantity - 1))} className="px-5 py-3 bg-gray-50 text-gray-600 hover:bg-gray-100 font-bold border-r border-gray-200 transition-colors cursor-pointer">-</button>
-                                    <input type="number" min="1" value={buyQuantity} onChange={e => setBuyQuantity(Math.max(1, Number(e.target.value)) || 1)} className="w-full text-center font-bold text-gray-900 bg-white outline-none" />
-                                    <button onClick={() => setBuyQuantity(buyQuantity + 1)} className="px-5 py-3 bg-gray-50 text-gray-600 hover:bg-gray-100 font-bold border-l border-gray-200 transition-colors cursor-pointer">+</button>
+                                    <input type="number" min="1" max={selectedProduct.stock_quantity} value={buyQuantity} onChange={e => setBuyQuantity(Math.min(selectedProduct.stock_quantity, Math.max(1, Number(e.target.value))) || 1)} className="w-full text-center font-bold text-gray-900 bg-white outline-none" />
+                                    <button onClick={() => setBuyQuantity(Math.min(selectedProduct.stock_quantity, buyQuantity + 1))} className="px-5 py-3 bg-gray-50 text-gray-600 hover:bg-gray-100 font-bold border-l border-gray-200 transition-colors cursor-pointer">+</button>
                                 </div>
+                                <p className="text-[10px] font-bold text-gray-400 mt-2 px-1 italic">Maximum available: {selectedProduct.stock_quantity} units</p>
                             </div>
 
                             <div className="bg-krishi-50/50 p-5 rounded-xl border border-krishi-100/50">

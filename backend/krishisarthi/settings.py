@@ -1,4 +1,4 @@
-import os
+import os 
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -120,6 +120,9 @@ APPEND_SLASH = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field

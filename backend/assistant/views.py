@@ -4,8 +4,15 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from krishisarthi.db import get_db
 from datetime import datetime
+import logging
+import threading
 
-# Agricultural knowledge base for professional responses
+logger = logging.getLogger(__name__)
+
+# ══════════════════════════════════════════════════════════════
+# Agricultural Knowledge Base — instant, reliable fallback
+# ══════════════════════════════════════════════════════════════
+
 KNOWLEDGE_BASE = {
     "fertilizer": {
         "keywords": ["fertilizer", "fertiliser", "npk", "urea", "dap", "potash", "nutrient", "manure", "compost"],
@@ -165,51 +172,128 @@ DEFAULT_RESPONSE = """That's a great question! Here's what I can help you with:
 What would you like to know more about?"""
 
 
+# ══════════════════════════════════════════════════════════════
+# Lazy-loaded RAG Engine — never blocks Django startup
+# ══════════════════════════════════════════════════════════════
+
+_rag_engine = None
+_rag_lock = threading.Lock()
+_rag_loading = False
+_rag_ready = False
+
+def _get_rag_engine():
+    """Lazily initialize RAG engine on first use, not at import time."""
+    global _rag_engine, _rag_ready, _rag_loading
+    if _rag_ready and _rag_engine is not None:
+        return _rag_engine
+    with _rag_lock:
+        if _rag_ready and _rag_engine is not None:
+            return _rag_engine
+        if _rag_loading:
+            return None  # Another thread is loading it
+        _rag_loading = True
+    try:
+        from ml.rag.rag_engine import RAGEngine
+        _rag_engine = RAGEngine()
+        _rag_ready = True
+        logger.info("RAG Engine loaded successfully (lazy init)")
+        return _rag_engine
+    except Exception as e:
+        logger.error(f"Failed to initialize RAG Engine: {e}")
+        _rag_loading = False
+        return None
+
+
+def _preload_rag():
+    """Background thread to pre-warm the RAG engine after startup."""
+    try:
+        _get_rag_engine()
+    except Exception as e:
+        logger.warning(f"RAG preload failed (non-fatal): {e}")
+
+# Kick off background preload — doesn't block Django
+threading.Thread(target=_preload_rag, daemon=True, name="rag-preload").start()
+
+
+def _match_knowledge_base(query):
+    """Fast keyword matching against the built-in knowledge base."""
+    query_lower = query.lower()
+    best_match = None
+    best_score = 0
+    for category, data in KNOWLEDGE_BASE.items():
+        score = sum(1 for kw in data["keywords"] if kw in query_lower)
+        if score > best_score:
+            best_score = score
+            best_match = data["response"]
+    return best_match if best_score > 0 else None
+
+
 class AskAssistantView(APIView):
-    permission_classes = [IsAuthenticated]
-    
+    permission_classes = [AllowAny]
+
     def post(self, request):
         query = request.data.get('query', '').strip()
-        query_lower = query.lower()
-        
-        # Find best matching knowledge area
-        response = DEFAULT_RESPONSE
-        matched_category = "general"
-        
-        for category, data in KNOWLEDGE_BASE.items():
-            for keyword in data["keywords"]:
-                if keyword in query_lower:
-                    response = data["response"]
-                    matched_category = category
-                    break
-            if matched_category != "general":
-                break
-        
-        # Log activity
+        if not query:
+            return Response({"error": "Empty query"}, status=status.HTTP_400_BAD_REQUEST)
+
+        response = None
+        sub_queries = [query]
+        sources = []
+
+        # 1. Try RAG Engine (if loaded)
+        rag = _get_rag_engine()
+        if rag is not None:
+            try:
+                rag_result = rag.query(query)
+                response = rag_result.get("answer")
+                sub_queries = rag_result.get("sub_queries", [query])
+                sources = rag_result.get("sources", [])
+            except Exception as e:
+                logger.error(f"RAG Engine query failed: {e}")
+
+        # 2. Fallback to knowledge base if RAG didn't produce an answer
+        if not response:
+            kb_match = _match_knowledge_base(query)
+            if kb_match:
+                response = kb_match
+            else:
+                response = DEFAULT_RESPONSE
+
+        # 3. Log activity (non-blocking)
         try:
             db = get_db()
-            user_id = str(request.user["_id"])
+            user_info = getattr(request, 'user', None)
+            if user_info and hasattr(user_info, 'get'):
+                user_id = str(user_info.get("_id", "anonymous"))
+            else:
+                user_id = "anonymous"
+
             db["activity_log"].insert_one({
                 "user_id": user_id,
                 "type": "ai_chat",
-                "message": f"Asked AI assistant about: {query[:50]}{'...' if len(query) > 50 else ''}",
+                "message": f"Asked AI: {query[:80]}{'...' if len(query) > 80 else ''}",
                 "timestamp": datetime.utcnow().isoformat()
             })
-        except Exception:
-            pass  # Don't fail the response if logging fails
-        
+        except Exception as e:
+            logger.warning(f"Activity logging failed: {e}")
+
         return Response({
             "query": query,
+            "sub_queries": sub_queries,
             "response": response,
-            "category": matched_category,
+            "sources": sources,
+            "category": "rag_expert" if sources else "knowledge_base",
         })
 
 
 class AssistantStatusView(APIView):
     permission_classes = [AllowAny]
+
     def get(self, request):
+        rag_status = "ready" if _rag_ready else ("loading" if _rag_loading else "offline")
         return Response({
             "status": "online",
+            "rag_status": rag_status,
             "model": "KrishiSaarthi v2.0",
             "capabilities": [
                 "Soil health analysis",

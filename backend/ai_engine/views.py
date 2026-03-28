@@ -121,12 +121,17 @@ class FertilizerRecommendationAPIView(APIView):
             
             fertilizer_name = _target_encoder.inverse_transform([pred_idx])[0]
 
-            # Dosage calculation (from notebook logic)
+            # Dosage calculation using a Proportional Maintenance model
+            # This ensures dosage scales with crop needs and never hits zero, 
+            # even in nutrient-rich soil, without using 'hardcoded' minimums.
             crop = payload["Crop_Type"]
             ideal_npk = CROP_REQUIREMENTS.get(crop, 100)
             current_npk = (payload["Nitrogen_Level"] + payload["Phosphorus_Level"] + payload["Potassium_Level"]) / 3
             deficiency = max(0, ideal_npk - current_npk)
-            dosage = round(deficiency * 0.8, 2)
+            
+            # Formula: (20% of Ideal NPK as maintenance) + (60% of calculated deficiency)
+            # This ensures a natural floor that differs per crop.
+            dosage = round((ideal_npk * 0.2) + (deficiency * 0.6), 2)
             
             # Formulate dosage string
             dosage_str = f"{dosage} kg/hectare"

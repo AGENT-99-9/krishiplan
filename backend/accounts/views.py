@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from krishisarthi.db import get_db
 from .utils import hash_password, verify_password, create_access_token
+from datetime import datetime
 import logging
 
 logger = logging.getLogger(__name__)
@@ -12,14 +13,21 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
     def post(self, request):
-        print("DEBUG: Register request received")
         data = request.data
         email = data.get('email')
         password = data.get('password')
         full_name = data.get('full_name')
+        role = data.get('role', 'farmer') # Default to farmer
+        
+        # Vendor specific fields
+        shop_name = data.get('shop_name')
+        location = data.get('location')
 
         if not email or not password or not full_name:
             return Response({"detail": "Missing fields"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if role == 'vendor' and (not shop_name or not location):
+            return Response({"detail": "Vendors must provide shop name and location"}, status=status.HTTP_400_BAD_REQUEST)
 
         db = get_db()
         
@@ -42,9 +50,17 @@ class RegisterView(APIView):
             "email": email,
             "hashed_password": hash_password(password),
             "full_name": full_name,
-            "role": "farmer",
+            "role": role,
             "is_active": True,
         }
+        
+        if role == 'vendor':
+            user_doc["vendor_profile"] = {
+                "shop_name": shop_name,
+                "location": location,
+                "joined_at": datetime.utcnow().isoformat()
+            }
+            
         db["users"].insert_one(user_doc)
 
         token = create_access_token(data={"sub": email})
@@ -53,13 +69,15 @@ class RegisterView(APIView):
             "token_type": "bearer",
             "username": username,
             "email": email,
+            "role": role,
+            "full_name": full_name,
+            "vendor_profile": user_doc.get("vendor_profile")
         }, status=status.HTTP_201_CREATED)
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = []
     def post(self, request):
-        print("DEBUG: Login request received")
         data = request.data
         email = data.get('email')
         password = data.get('password')
@@ -80,4 +98,6 @@ class LoginView(APIView):
             "username": user["username"],
             "email": user["email"],
             "full_name": user.get("full_name", ""),
+            "role": user.get("role", "farmer"),
+            "vendor_profile": user.get("vendor_profile")
         })

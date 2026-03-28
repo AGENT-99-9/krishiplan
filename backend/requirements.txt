@@ -11,9 +11,14 @@ pandas
 numpy
 scikit-learn
 certifi
-# Soil predictor + Document extractor
+# Document extractor
 opencv-python-headless
 pytesseract
 PyPDF2
 pdf2image
 Pillow
+# RAG Engine & AI
+google-genai
+chromadb
+sentence-transformers
+openai

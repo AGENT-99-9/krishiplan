@@ -6,11 +6,24 @@ export default function DashboardNavbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const navigate = useNavigate();
 
-    const navLinks = [
-        { label: 'Marketplace', to: '/marketplace' },
-        { label: 'AI Assistant', to: '/assistant' },
-        { label: 'Community', to: '/community' },
-    ];
+    let user = null;
+    try {
+        const raw = localStorage.getItem('user');
+        user = raw ? JSON.parse(raw) : null;
+    } catch { user = null; }
+    const role = user?.role || 'farmer';
+
+    const navLinks = role === 'vendor'
+        ? [
+            { label: 'Inventory Management', to: '/vendor-dashboard' },
+            { label: 'Orders & Shipping', to: '/vendor-dashboard/orders' },
+            { label: 'Business Analytics', to: '/vendor-dashboard/analytics' },
+        ]
+        : [
+            { label: 'Buy Products', to: '/marketplace' },
+            { label: 'AI Assistant', to: '/assistant' },
+            { label: 'Community Hub', to: '/community' },
+        ];
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
@@ -18,12 +31,20 @@ export default function DashboardNavbar() {
         navigate('/login');
     };
 
+    const getDashboardLink = () => {
+        if (role === 'vendor') return '/vendor-dashboard';
+        if (role === 'admin') return '/admin-dashboard';
+        return '/dashboard';
+    };
+
+    const dashboardLink = getDashboardLink();
+
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100 shadow-sm">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* ── Left: Brand ──────────────────── */}
-                    <Link to="/" className="flex items-center gap-2 group">
+                    <Link to={dashboardLink} className="flex items-center gap-2 group">
                         <div className="w-9 h-9 bg-gradient-to-br from-krishi-500 to-krishi-700 rounded-xl flex items-center justify-center shadow-md shadow-krishi-500/20 group-hover:shadow-krishi-500/40 transition-shadow duration-300">
                             <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M17.12 2.12c-2.34 0-4.69.96-6.36 2.64C8.41 7.12 7.56 10.22 8.12 13.12c-2.9-.56-6-.29-8.36 2.07a1 1 0 0 0 1.06 1.66c.1-.03 2.4-.82 4.18-.82.58 0 1.12.08 1.6.24a7.46 7.46 0 0 0 2.22 4.38 1 1 0 0 0 1.42-1.42 5.46 5.46 0 0 1-1.42-2.5c1.28.82 2.78 1.27 4.3 1.27 2.34 0 4.69-.96 6.36-2.64C23.58 11.26 23.58 5.42 19.76 2.12a1 1 0 0 0-.64-.24c-.7 0-1.38.08-2 .24z" />
@@ -56,7 +77,7 @@ export default function DashboardNavbar() {
                         >
                             Logout
                         </button>
-                        <Button to="/dashboard" variant="primary" className="text-sm px-6 py-2.5">
+                        <Button to={dashboardLink} variant="primary" className="text-sm px-6 py-2.5">
                             Dashboard
                         </Button>
                     </div>
@@ -95,7 +116,7 @@ export default function DashboardNavbar() {
                             </Link>
                         ))}
                         <div className="pt-3 border-t border-gray-100 flex flex-col gap-2">
-                            <Button to="/dashboard" variant="primary" className="justify-center w-full" onClick={() => setMobileOpen(false)}>
+                            <Button to={dashboardLink} variant="primary" className="justify-center w-full" onClick={() => setMobileOpen(false)}>
                                 Dashboard
                             </Button>
                             <button

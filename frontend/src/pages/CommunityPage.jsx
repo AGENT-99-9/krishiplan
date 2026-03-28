@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
+import DashboardNavbar from '../components/DashboardNavbar';
 import Footer from '../components/Footer';
 import CommunitySidebar from '../components/CommunitySidebar';
 import DiscussionCard from '../components/DiscussionCard';
@@ -9,6 +10,7 @@ import communityApi from '../api/communityApi';
 import AskQuestionModal from '../components/AskQuestionModal';
 
 export default function CommunityPage() {
+    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [trending, setTrending] = useState([]);
     const [contributors, setContributors] = useState([]);
@@ -35,12 +37,20 @@ export default function CommunityPage() {
     }, [category, search]);
 
     useEffect(() => {
+        try {
+            const raw = localStorage.getItem('user');
+            const user = raw ? JSON.parse(raw) : null;
+            if (user && user.role === 'vendor') {
+                navigate('/vendor-dashboard');
+                return;
+            }
+        } catch { /* ignore malformed user */ }
         loadData();
-    }, [loadData]);
+    }, [loadData, navigate]);
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50/50">
-            <Navbar />
+            <DashboardNavbar />
 
             <main className="flex-1 max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
                 {/* Three-Column Layout */}

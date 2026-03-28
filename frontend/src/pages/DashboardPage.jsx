@@ -17,6 +17,17 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        try {
+            const stored = localStorage.getItem('user');
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                if (parsed.role === 'vendor') {
+                    navigate('/vendor-dashboard');
+                    return;
+                }
+            }
+        } catch { /* ignore malformed data */ }
+
         const fetchDashboard = async () => {
             try {
                 const [profileRes, statsRes, activityRes] = await Promise.all([
@@ -29,13 +40,10 @@ export default function DashboardPage() {
                 setActivities(activityRes.data);
             } catch (err) {
                 console.error('Dashboard fetch error:', err);
-                // Fallback to stored user
                 try {
                     const stored = localStorage.getItem('user');
                     if (stored) setUser(JSON.parse(stored));
-                } catch (e) {
-                    console.error('Failed to parse stored user:', e);
-                }
+                } catch { /* ignore */ }
             } finally {
                 setLoading(false);
             }
