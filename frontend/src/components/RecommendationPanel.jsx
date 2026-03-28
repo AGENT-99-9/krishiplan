@@ -54,12 +54,36 @@ const RecommendationPanel = ({ recommendation, loading }) => {
                     </div>
                 </div>
 
-                <div className="pt-4">
+                {recommendation.related_products && recommendation.related_products.length > 0 && (
+                    <div className="pt-4 border-t border-gray-100">
+                        <p className="text-[10px] font-black uppercase text-gray-400 tracking-wider mb-4">Available in Marketplace</p>
+                        <div className="space-y-3">
+                            {recommendation.related_products.map(prod => (
+                                <Link to="/marketplace" key={prod.id} className="flex items-center gap-4 bg-white border border-gray-100 p-3 rounded-2xl hover:border-green-300 hover:shadow-md transition-all group">
+                                    <div className="w-12 h-12 bg-gray-50 rounded-xl overflow-hidden shadow-sm flex-shrink-0">
+                                        <img src={prod.image_url || 'https://via.placeholder.com/150'} alt={prod.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="text-sm font-bold text-gray-900 truncate group-hover:text-green-700 transition-colors">{prod.name}</h4>
+                                        <p className="text-[10px] font-medium text-gray-500 truncate">by {prod.seller_name}</p>
+                                    </div>
+                                    <div className="text-right flex-shrink-0">
+                                        <p className="text-sm font-black text-green-700">₹{prod.price}</p>
+                                        <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-0.5 group-hover:text-green-600">Buy Now &rarr;</p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className="pt-2">
                     <Link
                         to="/marketplace"
-                        className="block w-full bg-green-600 hover:bg-green-700 text-white text-center font-bold py-4 rounded-xl transition duration-200 shadow-lg shadow-green-100"
+                        className="block w-full bg-green-600 hover:bg-green-700 text-white text-center font-bold py-4 rounded-xl transition duration-200 shadow-lg shadow-green-100 flex items-center justify-center gap-2"
                     >
-                        Buy in Marketplace
+                        Browse Full Marketplace
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                     </Link>
                 </div>
 

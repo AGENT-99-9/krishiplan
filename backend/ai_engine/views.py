@@ -161,11 +161,40 @@ class FertilizerRecommendationAPIView(APIView):
                 "timestamp": datetime.utcnow().isoformat()
             })
 
+            # Fetch related marketplace products
+            related_products = []
+            try:
+                # Search for the specific fertilizer by name or category across products
+                keywords = fertilizer_name.lower().split()
+                # Basic match query (looking for name containing keywords)
+                search_query = {"category": "Fertilizers"}
+                if keywords:
+                    search_query["$or"] = [
+                        {"name": {"$regex": f".*{kw}.*", "$options": "i"}} for kw in keywords
+                    ]
+                
+                # Fetch up to 3 related active products
+                product_cursor = db["products"].find(
+                    {**search_query, "is_available": True, "stock_quantity": {"$gt": 0}}
+                ).limit(3)
+                
+                for p in product_cursor:
+                    related_products.append({
+                        "id": str(p["_id"]),
+                        "name": p.get("name"),
+                        "price": p.get("price"),
+                        "image_url": p.get("image_url", ""),
+                        "seller_name": p.get("seller_name", "Vendor")
+                    })
+            except Exception as e:
+                logger.warning(f"Failed to fetch related products: {e}")
+
             return Response({
                 "fertilizer": fertilizer_name,
                 "dosage": dosage_str,
                 "yield_increase": f"+{yield_inc}%",
-                "confidence": round(confidence, 4)
+                "confidence": round(confidence, 4),
+                "related_products": related_products
             })
 
         except Exception as e:

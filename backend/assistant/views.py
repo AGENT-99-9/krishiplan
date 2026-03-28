@@ -196,6 +196,7 @@ def _get_rag_engine():
         from ml.rag.rag_engine import RAGEngine
         _rag_engine = RAGEngine()
         _rag_ready = True
+        print("\n\n✅ [SUCCESS] HuggingFace SentenceTransformer loaded into memory.\n✅ [SUCCESS] RAG Knowledge Base ready for queries!\n")
         logger.info("RAG Engine loaded successfully (lazy init)")
         return _rag_engine
     except Exception as e:
@@ -210,9 +211,6 @@ def _preload_rag():
         _get_rag_engine()
     except Exception as e:
         logger.warning(f"RAG preload failed (non-fatal): {e}")
-
-# Kick off background preload — doesn't block Django
-threading.Thread(target=_preload_rag, daemon=True, name="rag-preload").start()
 
 
 def _match_knowledge_base(query):
@@ -240,11 +238,32 @@ class AskAssistantView(APIView):
         sub_queries = [query]
         sources = []
 
+        user = getattr(request, 'user', None)
+        user_id_str = "anonymous"
+        if user and user.is_authenticated and hasattr(user, 'id'):
+            user_id_str = str(user.id)
+
+        # Fetch Context from DB (Last 3 Reports)
+        user_context_str = "No prior history available."
+        db = get_db()
+        if user_id_str != "anonymous":
+            try:
+                recent_reports = list(db["ai_reports"].find({"user_id": user_id_str}).sort("timestamp", -1).limit(3))
+                if recent_reports:
+                    context_lines = []
+                    for r in recent_reports:
+                        rtype = r.get("type", "Analysis")
+                        rec = str(r.get("recommendation", r.get("result", "")))
+                        context_lines.append(f"- {rtype.replace('_', ' ').title()}: {rec}")
+                    user_context_str = "\n".join(context_lines)
+            except Exception as e:
+                logger.warning(f"Failed to fetch user context: {e}")
+
         # 1. Try RAG Engine (if loaded)
         rag = _get_rag_engine()
         if rag is not None:
             try:
-                rag_result = rag.query(query)
+                rag_result = rag.query(query, user_context=user_context_str)
                 response = rag_result.get("answer")
                 sub_queries = rag_result.get("sub_queries", [query])
                 sources = rag_result.get("sources", [])

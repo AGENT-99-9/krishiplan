@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "accounts",
     "marketplace",
     "community",
-    "assistant",
+    "assistant.apps.AssistantConfig",
     "dashboard",
     "ai_engine",
 ]

@@ -39,9 +39,13 @@ IMPORTANT RULES:
 
 RAG_PROMPT_TEMPLATE = """{system}
 
-─── CONTEXT DOCUMENTS ───
+─── USER HISTORY / CONTEXT ───
+{user_context}
+─── END USER CONTEXT ───
+
+─── KNOWLEDGE BASE DOCUMENTS ───
 {context_block}
-─── END CONTEXT ───
+─── END KNOWLEDGE BASE ───
 
 USER QUESTION: {query}
 
@@ -108,7 +112,7 @@ class RAGEngine:
             
         return "\n\n".join(blocks)
 
-    def query(self, user_query: str) -> Dict[str, Any]:
+    def query(self, user_query: str, user_context: str = "No prior history available.") -> Dict[str, Any]:
         """Full RAG pipeline: disintegrate -> retrieve -> generate."""
         # 1. Disintegrate
         sub_queries = self.disintegrate_query(user_query)
@@ -120,6 +124,7 @@ class RAGEngine:
         context_block = self._build_context_block(hits)
         prompt = RAG_PROMPT_TEMPLATE.format(
             system=SYSTEM_PROMPT,
+            user_context=user_context,
             context_block=context_block,
             query=user_query
         )
